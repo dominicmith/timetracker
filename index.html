@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dare Timer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <style>
+        body {
+            background-image: url('2439266_326239-P9XTRU-165.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        #main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #timer-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #timer {
+            font-size: 3em;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        @media screen and (max-width: 768px) {
+            #main-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div id="timer-container">
+            <h1 class="title">Dare Timer</h1>
+            <div id="timer">00:00:00</div>
+            <form id="form" method="POST" action="https://script.google.com/macros/s/AKfycbyPHRfhRi2geyj2WNxUbb9iXBMD1QlMjn7Ksr-WIGXWuLrjllDDc0OTj-mkWD3IGb_Z/exec">
+                <div class="input-container">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Your Name" name="Name" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input" type="tel" placeholder="Your Phone Number" name="Phone" required>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="stopwatch-time" name="Stopwatch Time" value="00:00:00">
+                <div class="button-container">
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" id="start-button">Start</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" type="submit" id="submit-button">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var timerElement = document.getElementById("timer");
+        var stopwatchTimeElement = document.getElementById("stopwatch-time");
+        var timer;
+        var hours = 0;
+        var minutes = 0;
+        var seconds = 0;
+
+        document.getElementById("start-button").addEventListener("click", function() {
+            startTimer();
+            this.disabled = true;
+        });
+
+        function startTimer() {
+            timer = setInterval(incrementTimer, 1000);
+        }
+
+        function incrementTimer() {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            var hoursString = hours < 10 ? "0" + hours : hours;
+            var minutesString = minutes < 10 ? "0" + minutes : minutes;
+            var secondsString = seconds < 10 ? "0" + seconds : seconds;
+            var timeString = hoursString + ":" + minutesString + ":" + secondsString;
+            timerElement.textContent = timeString;
+            stopwatchTimeElement.value = timeString;
+        }
+    </script>
+</body>
+</html>
